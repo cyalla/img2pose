@@ -56,7 +56,7 @@ class img2poseModel:
         blocks = torch.nn.Sequential(*EfficientNet.from_pretrained('efficientnet-b0')._blocks)
         conv_head = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._conv_head)
         backbone = torch.nn.Sequential(conv_stem, bn, blocks, conv_head)
-        backbone.out_channels = 512
+        backbone.out_channels = 1280
         print(backbone)
 
         if pose_mean is not None:
