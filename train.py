@@ -1,7 +1,7 @@
 import argparse
 import random
 from os import path
-
+import datetime
 import numpy as np
 import torch
 from torch import optim
@@ -132,6 +132,9 @@ class Train:
         self.best_step = 0
         self.best_val_loss = float("Inf")
 
+        current_time = datetime.datetime.now()
+        time_str = current_time.strftime("%H:%M:%S")
+        print("Running @ Current Time:", time_str)
         for epoch in range(self.config.epochs):
             train_logger = TrainLogger(
                 self.config.batch_size, self.config.frequency_log, self.config.num_gpus
@@ -280,6 +283,10 @@ class Train:
         val_loss = round(val_losses["loss"] / len(self.val_loader), 6)
         self.checkpoint(val_loss, step)
 
+
+        current_time = datetime.datetime.now()
+        time_str = current_time.strftime("%H:%M:%S")
+        print("Current Time:", time_str)
         print(
             "Current validation loss: "
             + f"{val_loss:.6f} at step {step}"

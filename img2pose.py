@@ -49,15 +49,16 @@ class img2poseModel:
             self.device = device
 
         # create network backbone
-        # Define the EfficientNet backbone
-        print("EfficientNet")
-        conv_stem = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._conv_stem)
-        bn = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._bn0)
-        blocks = torch.nn.Sequential(*EfficientNet.from_pretrained('efficientnet-b0')._blocks)
-        conv_head = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._conv_head)
-        backbone = torch.nn.Sequential(conv_stem, bn, blocks, conv_head)
-        backbone.out_channels = 1280
-        print(backbone)
+        backbone = resnet_fpn_backbone(f"resnet{self.depth}", pretrained=True)
+        # # Define the EfficientNet backbone
+        # print("EfficientNet")
+        # conv_stem = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._conv_stem)
+        # bn = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._bn0)
+        # blocks = torch.nn.Sequential(*EfficientNet.from_pretrained('efficientnet-b0')._blocks)
+        # conv_head = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._conv_head)
+        # backbone = torch.nn.Sequential(conv_stem, bn, blocks, conv_head)
+        # backbone.out_channels = 1280
+        # print(backbone)
 
         if pose_mean is not None:
             pose_mean = torch.tensor(pose_mean)
