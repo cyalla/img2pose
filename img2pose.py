@@ -5,7 +5,7 @@ from torchvision.models.detection.backbone_utils import resnet_fpn_backbone
 
 from model_loader import load_model
 from models import FasterDoFRCNN
-
+from efficientnet_pytorch import EfficientNet
 
 class WrappedModel(Module):
     def __init__(self, module):
@@ -49,7 +49,15 @@ class img2poseModel:
             self.device = device
 
         # create network backbone
-        backbone = resnet_fpn_backbone(f"resnet{self.depth}", pretrained=True)
+        # Define the EfficientNet backbone
+        print("EfficientNet")
+        conv_stem = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._conv_stem)
+        bn = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._bn0)
+        blocks = torch.nn.Sequential(*EfficientNet.from_pretrained('efficientnet-b0')._blocks)
+        conv_head = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._conv_head)
+        backbone = torch.nn.Sequential(conv_stem, bn, blocks, conv_head)
+        backbone.out_channels = 512
+        print(backbone)
 
         if pose_mean is not None:
             pose_mean = torch.tensor(pose_mean)
