@@ -28,7 +28,7 @@ class Bottleneck(nn.Module):
     def forward(self, x):
         """'forward()' applies the YOLOv5 FPN to input data."""
         return x + self.cv2(self.cv1(x)) if self.add else self.cv2(self.cv1(x))
-        
+
 def autopad(k, p=None, d=1):  # kernel, padding, dilation
     """Pad to 'same' shape outputs."""
     if d > 1:
@@ -132,34 +132,34 @@ class img2poseModel:
         # backbone = resnet_fpn_backbone(f"resnet{self.depth}", pretrained=True)
 
         backbone = nn.Sequential(
-                # [from, repeats, module, args]
-                Conv(3, 64, 3, 2),  # 0-P1/2
-                Conv(64, 128, 3, 2),  # 1-P2/4
-                C2f(128, 128, True, 3),  # 2
-                C2f(128, 128, True, 3),  # 3
-                C2f(128, 128, True, 3),  # 4
-                Conv(128, 256, 3, 2),  # 5-P3/8
-                C2f(256, 256, True, 3),  # 6
-                C2f(256, 256, True, 3),  # 7
-                C2f(256, 256, True, 3),  # 8
-                C2f(256, 256, True, 3),  # 9
-                C2f(256, 256, True, 3),  # 10
-                C2f(256, 256, True, 3),  # 11
-                Conv(256, 512, 3, 2),  # 12-P4/16
-                C2f(512, 512, True, 3),  # 13
-                C2f(512, 512, True, 3),  # 14
-                C2f(512, 512, True, 3),  # 15
-                C2f(512, 512, True, 3),  # 16
-                C2f(512, 512, True, 3),  # 17
-                C2f(512, 512, True, 3),  # 18
-                Conv(512, 1280, 3, 2),  # 19-P5/32
-                C2f(1280, 1024, True, 3),  # 20
-                C2f(1024, 1024, True, 3),  # 21
-                C2f(1024, 1024, True, 3),  # 22
-                SPPF(1024, 1024, 5),  # 23
-            )
+            Conv(3, 64, 3, 2),  # 0-P1/2
+            Conv(64, 128, 3, 2),  # 1-P2/4
+            C2f(128, 128, True, 3),  # 2
+            C2f(128, 128, True, 3),  # 3
+            C2f(128, 128, True, 3),  # 4
+            Conv(128, 256, 3, 2),  # 5-P3/8
+            C2f(256, 256, True, 3),  # 6
+            C2f(256, 256, True, 3),  # 7
+            C2f(256, 256, True, 3),  # 8
+            C2f(256, 256, True, 3),  # 9
+            C2f(256, 256, True, 3),  # 10
+            C2f(256, 256, True, 3),  # 11
+            Conv(256, 512, 3, 2),  # 12-P4/16
+            C2f(512, 512, True, 3),  # 13
+            C2f(512, 512, True, 3),  # 14
+            C2f(512, 512, True, 3),  # 15
+            C2f(512, 512, True, 3),  # 16
+            C2f(512, 512, True, 3),  # 17
+            C2f(512, 512, True, 3),  # 18
+            Conv(512, 1024, 3, 2),  # 19-P5/32
+            C2f(1024, 1024, True, 3),  # 20
+            C2f(1024, 1024, True, 3),  # 21
+            C2f(1024, 1024, True, 3),  # 22
+            SPPF(1024, 1024, 5),  # 23
+        )
 
-        backbone.out_channels = 1280
+        backbone.out_channels = 1024
+
 
         # # Define the EfficientNet backbone
         # print("EfficientNet")
