@@ -15,6 +15,14 @@ class WrappedModel(Module):
     def forward(self, images, targets=None):
         return self.module(images, targets)
 
+def autopad(k, p=None, d=1):  # kernel, padding, dilation
+    """Pad to 'same' shape outputs."""
+    if d > 1:
+        k = d * (k - 1) + 1 if isinstance(k, int) else [d * (x - 1) + 1 for x in k]  # actual kernel-size
+    if p is None:
+        p = k // 2 if isinstance(k, int) else [x // 2 for x in k]  # auto-pad
+    return p
+    
 class Conv(nn.Module):
     """Standard convolution with args(ch_in, ch_out, kernel, stride, padding, groups, dilation, activation)."""
     default_act = nn.SiLU()  # default activation
@@ -138,7 +146,7 @@ class img2poseModel:
             )
 
         backbone.out_channels = 1280
-        
+
         # # Define the EfficientNet backbone
         # print("EfficientNet")
         # conv_stem = torch.nn.Sequential(EfficientNet.from_pretrained('efficientnet-b0')._conv_stem)
