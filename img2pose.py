@@ -5,7 +5,7 @@ from torchvision.models.detection.backbone_utils import resnet_fpn_backbone
 
 from model_loader import load_model
 from models import FasterDoFRCNN
-from efficientnet_pytorch import EfficientNet
+
 
 class WrappedModel(Module):
     def __init__(self, module):
